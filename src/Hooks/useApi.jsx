@@ -12,8 +12,10 @@ const useApi = (BaseUrl, getData) => {
   }, []);
 
   const refreshData = (url, condition) => {
-    axios.get(url).then((response) => setApi(getData(response)));
-    setLoaderWeather(condition);
+    axios.get(url).then((response) => {
+      setApi(getData(response));
+      setLoaderWeather(condition);
+    });
   };
   return { Api, refreshData, LoaderWeather };
 };

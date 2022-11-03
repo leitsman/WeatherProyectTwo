@@ -14,9 +14,9 @@ const RequestGeo = () => {
       let coords = position.coords;
       setLoader(false);
       setMessageError(false);
-      console.log(coords.longitude);
+      // console.log(coords.longitude);
       setLongLat([coords.latitude, coords.longitude]);
-      //   console.log(coords);
+      console.log(coords);
     };
     const error = (err) => {
       setMessageError(true);
@@ -34,7 +34,7 @@ const RequestGeo = () => {
 
   return (
     <>
-      {Loader && <TheLoader ValueMessage={MessageError} />}
+      {Loader && <TheLoader ValueMessage={MessageError} ZIndex="20" />}
       <TheWeather LongLat={LongLat} />
     </>
   );

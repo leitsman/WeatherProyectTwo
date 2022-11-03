@@ -1,9 +1,9 @@
 import React from "react";
 import reactLogo from "../assets/react.svg";
 
-const TheLoader = ({ ValueMessage, opacity }) => {
+const TheLoader = ({ ValueMessage, opacityy, ZIndex }) => {
   return (
-    <div className="loader" style={{ opacity: opacity }}>
+    <div className="loader" style={{ opacity: opacityy, zIndex: ZIndex }}>
       <div>
         <img src={reactLogo} className="logo" alt="loaderImg" />
       </div>

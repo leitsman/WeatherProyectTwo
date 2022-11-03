@@ -33,7 +33,8 @@ const TheWeather = ({ LongLat }) => {
         muted
         className="video--background"
       ></video>
-      {LoaderWeather === true ? (
+      {!LoaderWeather && <TheLoader opacityy={0.5} />}
+      {LoaderWeather && (
         <div className="container--weather-info">
           {/* {!LoaderWeather && <TheLoader opacity="0.3" />} */}
           {/* {LoaderWeather&& } */}
@@ -122,8 +123,6 @@ const TheWeather = ({ LongLat }) => {
             </div>
           </div>
         </div>
-      ) : (
-        <TheLoader opacity={0.5} />
       )}
     </>
   );
@@ -131,7 +130,3 @@ const TheWeather = ({ LongLat }) => {
 
 export default TheWeather;
 // `https://api.openweathermap.org/data/2.5/weather?lat=${GetLatitude}&lon=${GetLongitude}&appid=39f4571e6a4b235a7f18b027850c77fe&lang=es`
-
-// la informacion que nos llega podria se un: NaN
-
-// `https://api.openweathermap.org/data/2.5/weather?lat=-16,5937451&lon=-68,1965583&appid=39f4571e6a4b235a7f18b027850c77fe&lang=es`
