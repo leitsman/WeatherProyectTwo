@@ -13,8 +13,8 @@ const TheWeather = ({ LongLat }) => {
 
   useEffect(() => {
     if (LongLat.length) {
-      let GetLongitude = Number(LongLat[0]);
-      let GetLatitude = Number(LongLat[1]);
+      let GetLatitude = Number(LongLat[0]);
+      let GetLongitude = Number(LongLat[1]);
       refreshData(
         `https://api.openweathermap.org/data/2.5/weather?lat=${GetLatitude}&lon=${GetLongitude}&appid=39f4571e6a4b235a7f18b027850c77fe&lang=es`,
         true
