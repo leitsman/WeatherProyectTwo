@@ -36,8 +36,6 @@ const TheWeather = ({ LongLat }) => {
       {!LoaderWeather && <TheLoader opacityy={0.5} />}
       {LoaderWeather && (
         <div className="container--weather-info">
-          {/* {!LoaderWeather && <TheLoader opacity="0.3" />} */}
-          {/* {LoaderWeather&& } */}
           <div className="content--title">
             <h1>Weather App</h1>
             <small>by MDKG</small>
