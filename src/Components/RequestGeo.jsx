@@ -3,7 +3,7 @@ import TheWeather from "./TheWeather";
 import TheLoader from "./TheLoader";
 
 const RequestGeo = () => {
-  // =============== SEND TO THEWEATHER LONG/LAT =============
+  // =============== useState LONG/LAT =============
   const [LongLat, setLongLat] = useState([]);
   // ================= LOADING AND MESSAGE ERROR ===========
   const [Loader, setLoader] = useState(true);
