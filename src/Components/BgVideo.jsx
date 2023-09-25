@@ -1,9 +1,10 @@
 import React from "react";
+import videoBg from "../assets/cloudsLoop.mp4";
 
 const BgVideo = () => {
   return (
     <video
-      src="/src/assets/cloudsLoop.mp4"
+      src={videoBg}
       autoPlay
       muted
       loop
