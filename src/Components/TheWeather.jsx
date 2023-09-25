@@ -1,127 +1,103 @@
-import React, { useEffect, useState } from "react";
-import useApi from "../Hooks/useApi";
-import TheLoader from "./TheLoader";
-import videobg from "../assets/cloudsLoop.mp4";
+import React, { useContext, useState } from "react";
+import { locationContext } from "../contexts/LocationContext";
 
-const TheWeather = ({ LongLat }) => {
+const TheWeather = () => {
   // ================ CONVERT CELCIOUS/FARHENHEIT ===========
-  const [Convert, setConvert] = useState(false);
-  const { Api, refreshData, LoaderWeather } = useApi(
-    "",
-    (getResponse) => getResponse.data
-  );
-
-  useEffect(() => {
-    if (LongLat.length) {
-      let GetLatitude = Number(LongLat[0]);
-      let GetLongitude = Number(LongLat[1]);
-      refreshData(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${GetLatitude}&lon=${GetLongitude}&appid=39f4571e6a4b235a7f18b027850c77fe&lang=es`,
-        true
-      );
-    }
-  }, [LongLat]);
-
-  console.log(Api);
+  const [unit, setUnit] = useState(false);
+  // todo: usar context no provider
+  const { dataApi } = useContext(locationContext);
 
   return (
     <>
-      <video
-        src={videobg}
-        autoPlay
-        loop
-        muted
-        className="video--background"
-      ></video>
-      {!LoaderWeather && <TheLoader opacityy={0.5} />}
-      {LoaderWeather && (
-        <div className="container--weather-info">
-          <div className="content--title">
-            <h1>Weather App</h1>
-            <small>by MDKG</small>
-            <div className="content--buttos-options">
-              <button onClick={() => setConvert(!Convert)}>
-                Change to {Convert ? "Kelvin" : "Celcious"}
-              </button>
-            </div>
-          </div>
-
-          <div className="content--img-country">
-            <div className="content--temp-country">
-              <span className="content--countryDate">
-                {Api?.name}, {Api.sys?.country}
-              </span>
-              <span className="content--temp">
-                {Convert
-                  ? (Api.main?.temp - 273.15).toFixed(1)
-                  : Api.main?.temp}
-                º{Convert ? "C" : "K"}
-              </span>
-            </div>
-
-            <div className="content--img-description">
-              <div className="content--img-weather">
-                <img
-                  src={`http://openweathermap.org/img/wn/${Api.weather?.[0].icon}@2x.png`}
-                  alt="IconWeather"
-                  className="icon--weather"
-                />
-              </div>
-              <span>{Api.weather?.[0].description}</span>
-            </div>
-          </div>
-          <div className="content--info-details-weather">
-            <div className="content--info-detail">
-              <i className="fa-solid fa-wind fa-4x"></i>
-              <span>
-                <b>Wind Speed: </b>
-                {Api.wind?.speed} M/s
-              </span>
-            </div>
-            <div className="content--info-detail">
-              <i className="fa-solid fa-cloud fa-4x"></i>
-              <span>
-                <b>Clouds: </b>
-                {Api.clouds?.all}%
-              </span>
-            </div>
-            <div className="content--info-detail">
-              <i className="fa-solid fa-temperature-three-quarters fa-4x"></i>
-              <span>
-                <b>Pressure: </b>
-                {Api.main?.pressure} hPa
-              </span>
-            </div>
-            <div className="content--info-detail">
-              <i className="fa-solid fa-droplet fa-4x"></i>
-              <span>
-                <b>Humidity: </b>
-                {Api.main?.humidity} %
-              </span>
-            </div>
-            <div className="content--info-detail">
-              <div className="">
-                <i className="fa-solid fa-temperature-arrow-down fa-3x"></i>
-                <i className="fa-solid fa-temperature-arrow-up fa-3x"></i>
-              </div>
-              <span>
-                <b>Min: </b>
-                {Convert
-                  ? (Api.main?.temp_min - 273.15).toFixed(1)
-                  : Api.main?.temp_min}
-                º{Convert ? "C" : "K"}
-              </span>
-              <span>
-                <b>Max: </b>
-                {Convert
-                  ? (Api.main?.temp_max - 273.15).toFixed(1)
-                  : Api.main?.temp_max}
-                º{Convert ? "C" : "K"}
+      <main className="bg-[#00000080] min-h-screen">
+        <header className="text-center pt-10 md:mb-[2vh]">
+          <h1 className="text-5xl font-bold">The weather app</h1>
+          <span className="">api by Open Weather map</span>
+        </header>
+        <section className="text-center mb-14 md:mb-[15vh] max-w-xl mx-auto">
+          <div className="flex items-center justify-around">
+            <h2 className="font-light text-3xl pt-7">
+              {dataApi.name}, {dataApi.sys?.country}
+            </h2>
+            <div className="relative px-3 flex justify-center">
+              <img
+                src={`http://openweathermap.org/img/wn/${dataApi.weather?.[0].icon}@2x.png`}
+                alt="icon-wheather"
+              />
+              <span className="absolute bottom-0 font-light">
+                {dataApi.weather?.[0].description}
               </span>
             </div>
           </div>
-        </div>
-      )}
+          <div className=" flex items-center justify-center flex-wrap gap-x-5">
+            <span className="font-bold text-6xl">
+              {unit
+                ? dataApi.main?.temp
+                : ((dataApi.main?.temp * 9) / 5 + 32).toFixed(1)}
+              º{unit ? "C" : "F"}
+            </span>
+            <button
+              className="bg-gray-700 text-white active:bg-gray-500 font-bold uppercase text-sm px-6 py-3 shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-400 rounded-full"
+              onClick={() => setUnit(!unit)}
+            >
+              Change to {unit ? "fahrenheit" : "celcious"}
+            </button>
+          </div>
+        </section>
+        <aside className="flex flex-wrap gap-y-3 text-center">
+          <div className="flex flex-col items-center gap-2 w-1/2 sm:w-1/3 md:w-1/6">
+            <i className="fa-solid fa-wind fa-4x"></i>
+            <span>
+              Wind Speed:{" "}
+              <span className="font-light">{dataApi.wind?.speed} M/s</span>
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-2 w-1/2 sm:w-1/3 md:w-1/6">
+            <i className="fa-solid fa-cloud fa-4x"></i>
+            <span>
+              Clouds: <span className="font-light">{dataApi.clouds?.all}%</span>
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-2 w-1/2 sm:w-1/3 md:w-1/6">
+            <i className="fa-solid fa-temperature-three-quarters fa-4x"></i>
+            <span>
+              Pressure:{" "}
+              <span className="font-light">{dataApi.main?.pressure} Pha</span>
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-2 w-1/2 sm:w-1/3 md:w-1/6">
+            <i className="fa-solid fa-droplet fa-4x"></i>
+            <span>
+              Humidity:{" "}
+              <span className="font-light">{dataApi.main?.humidity}%</span>
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-2 w-1/2 sm:w-1/3 md:w-1/6">
+            <i className="fa-solid fa-temperature-arrow-up fa-4x"></i>
+            <span>
+              Max:{" "}
+              <span className="font-light">
+                {unit
+                  ? dataApi.main?.temp_max
+                  : ((dataApi.main?.temp_max * 9) / 5 + 32).toFixed(1)}
+                º{unit ? "C" : "F"}
+              </span>
+            </span>
+          </div>
+          <div className="flex flex-col items-center gap-2 w-1/2 sm:w-1/3 md:w-1/6">
+            <i className="fa-solid fa-temperature-arrow-down fa-4x"></i>
+            <span>
+              min:{" "}
+              <span className="font-light">
+                {unit
+                  ? dataApi.main?.temp_min
+                  : ((dataApi.main?.temp_min * 9) / 5 + 32).toFixed(1)}
+                º{unit ? "C" : "F"}
+              </span>
+            </span>
+          </div>
+        </aside>
+      </main>
     </>
   );
 };
