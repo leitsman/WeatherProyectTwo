@@ -5,11 +5,11 @@ import { readFileSync } from 'fs';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  server: {
-    https: {
-      key: readFileSync('./localhost-key.pem'),
-      cert: readFileSync('./localhost-cert.pem')
-    }
-  },
+  // server: {
+  //   https: {
+  //     key: readFileSync('./localhost-key.pem'),
+  //     cert: readFileSync('./localhost-cert.pem')
+  //   }
+  // },
   plugins: [react(), mkcert()]
 })
