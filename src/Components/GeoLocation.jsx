@@ -5,8 +5,7 @@ import TheLoader from "./TheLoader";
 const GeoLocation = () => {
   const [isAllow, setIsAllow] = useState(false);
   // loader
-  const { setIsLoader, setLongLat, isLoader, longlat } =
-    useContext(locationContext);
+  const { setLongLat, isLoader } = useContext(locationContext);
   // longitude latitude
   useEffect(() => {
     const success = (position) => {
@@ -18,12 +17,9 @@ const GeoLocation = () => {
         long: coords.longitude,
         lat: coords.latitude,
       });
-      console.log(longlat, "funcionando localizacion");
     };
     const error = (err) => {
-      console.log("localizacion error");
       setIsAllow(false);
-      setIsLoader(true);
     };
 
     const options = {
